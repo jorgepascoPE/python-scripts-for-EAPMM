@@ -31,7 +31,7 @@ def get_replacing_dict(template_path):
 
 
 def replace_dot_notations(template_path, type, replacing_dict, storing_path):
-    """Replace the dot notations for a type of files (dashboards, dataflows, lenses)"""
+    """Replace the dot notations for a type of files (dashboards, XMDs, dataflows, lenses)"""
     files_path = f"{template_path}/{type}"
 
     # Create a folder for the specific type of files
@@ -41,16 +41,17 @@ def replace_dot_notations(template_path, type, replacing_dict, storing_path):
 
     # Iterate over the files in the specific type directory
     for pathname in glob.glob(os.path.join(files_path, '*')):
+        
         filename = pathname[len(files_path):]
 
         with open(pathname, 'r') as file:
             filedata = file.read()
 
         for original, replace in replacing_dict.items():
-            replaced_filedata = filedata.replace(original, replace)
+            filedata = filedata.replace(original, replace)
 
         with open(f"{replaced_inner_path}/{filename}", 'w+') as file:
-            file.write(replaced_filedata)
+            file.write(filedata)
 
 
 def run(args):
@@ -61,6 +62,8 @@ def run(args):
         os.mkdir(REPLACED_PATH)
 
     replace_dot_notations(args.path, "dashboards", replacing_dict, REPLACED_PATH)
+    if args.xmds:
+        replace_dot_notations(args.path, "dataset_files", replacing_dict, REPLACED_PATH)
     if args.dataflow:
         replace_dot_notations(args.path, "dataflow", replacing_dict, REPLACED_PATH)
     if args.lenses:
@@ -69,10 +72,12 @@ def run(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        prog='replace_dot_notations', description='Replace dot notations for dataset fields in dashboards, and optionally dataflows and lenses')
+        prog='replace_dot_notations', description='Replace dot notations for dataset fields in dashboards, and optionally XMDs, dataflows and lenses.')
 
-    parser.add_argument('-p', '--path', type=str,
+    parser.add_argument('-p', '--path', type=str, required=True,
                         help="Specify the path of the template that needs dot notation replacement.")
+    parser.add_argument('-x', '--xmds', default=False, action='store_true',
+                        help="Include if dot notation needs to be fixed for XMDs.")
     parser.add_argument('-d', '--dataflow', default=False, action='store_true',
                         help="Include if dot notation needs to be fixed for dataflows.")
     parser.add_argument('-l', '--lenses', default=False, action='store_true',
