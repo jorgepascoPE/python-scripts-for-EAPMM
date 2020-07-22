@@ -28,7 +28,7 @@ if __name__ == '__main__':
         min_year = sys.argv[2] if (len(sys.argv) == 3) else None
         min_date = f'{min_year}-01-01' if min_year else None
     except IndexError as e:
-        print(f'Usage: {__file__} <file_to_filter> <min_year>')
+        print(f'Usage: {__file__} file_to_filter [min_year]')
         print(e)
         sys.exit(1)
 

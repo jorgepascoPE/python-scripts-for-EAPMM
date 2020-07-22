@@ -48,7 +48,7 @@ if __name__ == "__main__":
         visit = sys.argv[5]
     except:
         print(
-            f"Usage: python3 ./{__file__} <lead.csv> <contact_csv> <account_csv> <request_csv> <visit_csv>")
+            f"Usage: python3 ./{__file__} lead.csv contact_csv account_csv request_csv visit_csv")
         sys.exit(1)
 
     cut_rows(lead, contact, account, request, visit)

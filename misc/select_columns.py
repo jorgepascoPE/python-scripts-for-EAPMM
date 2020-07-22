@@ -21,7 +21,7 @@ if __name__ == "__main__":
         file_to_trim = sys.argv[1]
         trimmed_file = sys.argv[2]
     except IndexError as e:
-        print(f'Usage: {__file__} <file_to_trim> <correctly_trimmed_file>')
+        print(f'Usage: {__file__} file_to_trim correctly_trimmed_file')
         sys.exit(1)
 
     select_columns(file_to_trim, trimmed_file)
