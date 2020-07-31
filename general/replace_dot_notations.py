@@ -7,6 +7,8 @@ def get_replacing_dict(template_path):
     """Get a dictionary of the headers that has dot notations and their corresponding underscore notations"""
     external_file_path = f"{template_path}/external_files"
 
+    print("External files path:", external_file_path)
+
     headers_with_dots = set()
 
     # Iterate over every file in the external_files directory
@@ -24,6 +26,8 @@ def get_replacing_dict(template_path):
                 combination = '.'.join((field_arr[j], field_arr[j+1]))
                 headers_with_dots.add(combination)
 
+    print("Headers are:", headers_with_dots)
+    
     replacing_dict = {header: header.replace(
         '.', '_') for header in headers_with_dots}
 
@@ -39,6 +43,7 @@ def replace_dot_notations(template_path, type, replacing_dict, storing_path):
     if not os.path.exists(replaced_inner_path):
         os.mkdir(replaced_inner_path)
 
+    print(f"Replacing dot notations in {type}")
     # Iterate over the files in the specific type directory
     for pathname in glob.glob(os.path.join(files_path, '*')):
         
